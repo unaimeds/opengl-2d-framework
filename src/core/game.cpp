@@ -34,7 +34,7 @@ void Game::update(f32 delta_time) {
     player.update(renderer, input, map, delta_time);
     map.render(renderer);
     renderer.draw_text({ 50.0f, 150.0f }, "test halo");
-    renderer.draw_quad({ 0.0f, 0.0f }, window.get_size(), vignette_layer.index, );
+//    renderer.draw_quad({ 0.0f, 0.0f }, window.get_size(), vignette_layer.index, );
 //    renderer.draw_quad_lines({ 150.0f, 150.0f }, { 100.0f, 100.0f }, { 1.0f, 0.0f, 1.0f, 1.0f });
     renderer.render();
 }
