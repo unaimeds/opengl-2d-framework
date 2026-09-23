@@ -26,7 +26,7 @@ cmake --build build
 ```
 ```
 cd build
-./game_remake
+./opengl_2d_framework
 ```
 
 ## License
