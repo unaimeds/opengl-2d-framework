@@ -17,8 +17,8 @@ A small 2D game framework written in C++ using OpenGL 4.6.
 > C++23-compatible compiler is required.
 
 ```
-git clone --recurse-submodules https://github.com/unaimeds/opengl-2d-game.git
-cd opengl-2d-game
+git clone --recurse-submodules https://github.com/unaimeds/opengl-2d-framework.git
+cd opengl-2d-framework
 ```
 ```
 cmake -S . -B build
