@@ -9,7 +9,7 @@
 	url = git@github.com:gabime/spdlog.git
 [submodule "lib/tmxlite"]
 	path = lib/tmxlite
-	url = https://github.com/fallahn/tmxlite
+	url = git@github.com:fallahn/tmxlite.git
 [submodule "lib/freetype"]
 	path = lib/freetype
-	url = https://github.com/freetype/freetype
+	url = git@github.com:freetype/freetype.git
