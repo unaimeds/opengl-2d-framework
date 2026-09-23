@@ -1,5 +1,2 @@
-# cmake
 build/
-
-# ide
-.idea/workspace.xml
+.idea/
