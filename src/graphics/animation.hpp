@@ -2,24 +2,25 @@
 
 #include "textures.hpp"
 
+#include <vector>
+
 struct AnimationFrame {
-    f32 duration;
-    i32 row;
-    i32 column;
+    float duration;
+    int row, column;
 };
 
 class Animation {
 public:
-    Animation(cref<TextureLayer> sprite_sheet, f32 duration, i32 row, std::vector<i32> columns, u8 frame_count);
+    Animation(const TextureLayer& sprite_sheet, float duration, int row, std::vector<int> columns);
+
+    void update(float delta_time);
 
     glm::mat4x2 get_current_uv() const;
-    void update(f32 delta_time);
 private:
-    static constexpr auto MAX_FRAMES = 8;
+    const TextureLayer& sprite_sheet;
 
-    cref<TextureLayer> sprite_sheet;
-    AnimationFrame frames[MAX_FRAMES];
-    u8 frame_count;
-    f32 current_frame_time;
-    u8 current_frame;
+    std::vector<AnimationFrame> frames;
+
+    float current_frame_time = 0.0f;
+    std::size_t current_frame = 0;
 };

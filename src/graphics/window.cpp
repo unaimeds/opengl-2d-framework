@@ -6,11 +6,11 @@
 #include "window.hpp"
 #include "../utilities/debug.hpp"
 
-void opengl_message_callback(u32 source, u32 type, u32 id, u32 severity, i32 length, const char* message, const void* user_param) {
+void opengl_message_callback(std::uint32_t source, std::uint32_t type, std::uint32_t id, std::uint32_t severity, int length, const char* message, const void* user_param) {
     debug.info("[OpenGL] {}", message); // TODO: use level based on severity
 }
 
-Window::Window(std::string_view title, cref<glm::uvec2> size) : size(size) {
+Window::Window(std::string_view title, const glm::uvec2& size) : size(size) {
     debug.info("Creating window: {}x{} {}", size.x, size.y, title);
 
     if (!glfwInit()) {
@@ -32,7 +32,8 @@ Window::Window(std::string_view title, cref<glm::uvec2> size) : size(size) {
     glfwMakeContextCurrent(context);
     glfwSwapInterval(1);
 
-    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    if (const auto version = gladLoadGL(glfwGetProcAddress); version == 0)
+        throw std::runtime_error("Failed to initialize OpenGL context");
 
     glDebugMessageCallback(opengl_message_callback, nullptr);
 

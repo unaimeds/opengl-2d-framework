@@ -8,17 +8,17 @@ struct Tile {
     glm::vec2 position;
     glm::vec2 size;
     glm::mat4x2 uv;
-    u32 layer_index;
+    std::uint32_t layer_index;
 };
 
 struct TileTexture {
-    i32 index;
+    int index;
     glm::mat4x2 uv;
 };
 
 class MapLayer {
 public:
-    MapLayer(tmx::TileLayer& tile_layer, const glm::uvec2& tile_count, const std::unordered_map<u32, TileTexture>& tile_textures);
+    MapLayer(tmx::TileLayer& tile_layer, const glm::uvec2& tile_count, const std::unordered_map<std::uint32_t, TileTexture>& tile_textures);
 
     void render(Renderer& renderer);
 
@@ -37,7 +37,7 @@ public:
 
     void render(Renderer& renderer);
 
-    bool is_colliding(cref<glm::vec2> position, cref<glm::vec2> size) const;
+    bool is_colliding(const glm::vec2& position, const glm::vec2& size) const;
 private:
     std::vector<MapLayer> layers;
     std::vector<Tile> collision_rects;

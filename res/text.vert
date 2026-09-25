@@ -1,9 +1,9 @@
 #version 450 core
 
-in vec2 a_position;
-in vec2 a_uv;
-in vec4 a_color;
-in float a_layer;
+layout(location = 0) in vec2 a_position;
+layout(location = 1) in vec2 a_uv;
+layout(location = 2) in vec4 a_color;
+layout(location = 3) in float a_layer;
 
 out vec2 v_uv;
 out vec4 v_color;

@@ -9,7 +9,7 @@ class Player {
 public:
     Player(Texture& texture);
 
-    void update(Renderer& renderer, Input& input, const Map& map, f32 delta_time);
+    void update(Renderer& renderer, Input& input, const Map& map, float delta_time);
 private:
     static constexpr auto SPEED = 200.0f;
 

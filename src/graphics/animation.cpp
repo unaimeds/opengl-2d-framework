@@ -1,28 +1,33 @@
 #include "animation.hpp"
-#include "../utilities/debug.hpp"
 
-Animation::Animation(cref<TextureLayer> sprite_sheet, f32 duration, i32 row, std::vector<i32> columns, u8 frame_count) : sprite_sheet(sprite_sheet), frame_count(frame_count), current_frame(0), current_frame_time(0.0f) {
-    if (frame_count > MAX_FRAMES) {
-        debug.error("Tried creating animation but frame_count ({}) is greater than MAX_FRAMES ({})", frame_count, MAX_FRAMES);
-        return;
+#include <stdexcept>
+
+Animation::Animation(const TextureLayer& sprite_sheet, float duration, int row, std::vector<int> columns) :
+    sprite_sheet(sprite_sheet)
+{
+    if (columns.empty())
+        throw std::invalid_argument("Animation needs at least one frame");
+
+    if (duration <= 0.0f)
+        throw std::invalid_argument("Animation frame duration must be greater than zero");
+
+    frames.reserve(columns.size());
+
+    for (const auto column : columns) {
+        frames.emplace_back(duration, row, column);
     }
+}
 
-    for (u8 i = 0; i < frame_count; i++) {
-        frames[i].duration = duration;
-        frames[i].row = row;
-        frames[i].column = columns[i];
+void Animation::update(float delta_time) {
+    current_frame_time += delta_time;
+
+    if (current_frame_time >= frames[current_frame].duration) {
+        current_frame_time -= frames[current_frame].duration;
+        current_frame = (current_frame + 1) % frames.size();
     }
 }
 
 glm::mat4x2 Animation::get_current_uv() const {
-    auto& frame = frames[current_frame];
+    const auto& frame = frames[current_frame];
     return sprite_sheet.get_uv(frame.row, frame.column);
-}
-
-void Animation::update(f32 delta_time) {
-    current_frame_time += delta_time;
-    if (current_frame_time >= frames[current_frame].duration) {
-        current_frame_time = 0.0f;
-        current_frame = (current_frame + 1) % frame_count;
-    }
 }

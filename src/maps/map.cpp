@@ -4,13 +4,13 @@
 #include "../io/resources.hpp"
 #include "../utilities/debug.hpp"
 
-MapLayer::MapLayer(tmx::TileLayer& tile_layer, cref<glm::uvec2> tile_count, const std::unordered_map<u32, TileTexture>& tile_textures) : name(tile_layer.getName()) {
+MapLayer::MapLayer(tmx::TileLayer& tile_layer, const glm::uvec2& tile_count, const std::unordered_map<std::uint32_t, TileTexture>& tile_textures) : name(tile_layer.getName()) {
     debug.info("Loading map layer: {}", name);
 
     auto& tile_ids = tile_layer.getTiles();
 
-    for (u32 y = 0; y < tile_count.y; ++y) {
-        for (u32 x = 0; x < tile_count.x; ++x) {
+    for (std::uint32_t y = 0; y < tile_count.y; ++y) {
+        for (std::uint32_t x = 0; x < tile_count.x; ++x) {
             auto current_tile = y * tile_count.x + x;
             auto tile_id = tile_ids[current_tile].ID - 1;
 
@@ -42,7 +42,7 @@ Map::Map(Texture& texture) {
     glm::uvec2 tile_count = { map.getTileCount().x, map.getTileCount().y };
 
     std::vector<TextureLayer> tileset_textures;
-    std::unordered_map<u32, TileTexture> tile_textures;
+    std::unordered_map<std::uint32_t, TileTexture> tile_textures;
     for (auto& tileset : map.getTilesets()) {
         auto& tileset_texture = tileset_textures.emplace_back(texture.add_layer(tileset.getImagePath(), 32, true));
         debug.info("Loaded tileset: {}, layer index: {}", tileset.getName(), tileset_texture.index);
@@ -73,7 +73,7 @@ void Map::render(Renderer& renderer) {
     }
 }
 
-bool Map::is_colliding(cref<glm::vec2> position, cref<glm::vec2> size) const {
+bool Map::is_colliding(const glm::vec2& position, const glm::vec2& size) const {
     return std::any_of(collision_rects.begin(), collision_rects.end(), [&position, &size](const Tile& tile) {
         return false; // TODO: AABB
 //        return rect.intersects({ position, size });

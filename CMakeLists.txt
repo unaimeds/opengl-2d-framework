@@ -40,10 +40,7 @@ add_executable(
 # Compiler config
 add_compile_definitions(GLFW_INCLUDE_NONE GLM_ENABLE_EXPERIMENTAL)
 
-target_precompile_headers(
-    opengl_2d_framework PRIVATE
-    src/utilities/defines.hpp <string_view>
-)
+target_precompile_headers(opengl_2d_framework PRIVATE <string_view>)
 
 target_link_libraries(
     opengl_2d_framework PRIVATE

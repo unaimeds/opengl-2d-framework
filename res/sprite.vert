@@ -1,8 +1,8 @@
 #version 450 core
 
-in vec2 a_position;
-in vec2 a_uv;
-in float a_layer;
+layout(location = 0) in vec2 a_position;
+layout(location = 1) in vec2 a_uv;
+layout(location = 2) in float a_layer;
 
 out vec2 v_uv;
 out float v_layer;

@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include "../utilities/debug.hpp"
+
 Game::Game() :
     window("OpenGL 2D Framework", { 1280, 720 }),
     input(window),
@@ -23,14 +25,14 @@ void Game::start() {
     auto previous_time = std::chrono::high_resolution_clock::now();
     while (window.is_open()) {
         auto current_time = std::chrono::high_resolution_clock::now();
-        auto delta_time = std::chrono::duration<f32>(current_time - previous_time).count();
+        auto delta_time = std::chrono::duration<float>(current_time - previous_time).count();
         previous_time = current_time;
 
         update(delta_time);
     }
 }
 
-void Game::update(f32 delta_time) {
+void Game::update(float delta_time) {
     player.update(renderer, input, map, delta_time);
     map.render(renderer);
     renderer.draw_text({ 50.0f, 150.0f }, "test halo");

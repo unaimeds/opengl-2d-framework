@@ -1,14 +1,12 @@
 #include "player.hpp"
-#include "../utilities/debug.hpp"
 
 Player::Player(Texture& texture) :
-    position(100.0f, 50.0f),
-    size(48.0f, 48.0f),
+    position(100.0f, 50.0f), size(48.0f, 48.0f),
     sprite_sheet(texture.add_layer("character.png", 48)),
-    idle_animation(sprite_sheet, 0.25f, 0, { 0, 1, 2, 3 }, 4) {
-}
+    idle_animation(sprite_sheet, 0.25f, 0, { 0, 1, 2, 3 })
+{}
 
-void Player::update(Renderer& renderer, Input& input, const Map&map, f32 delta_time) {
+void Player::update(Renderer& renderer, Input& input, const Map&map, float delta_time) {
     idle_animation.update(delta_time);
 
     // get direction

@@ -21,7 +21,7 @@ Font::Font(Texture& texture, std::string_view file_name) : max_ascent(0) {
     // calculate texture size
     glm::ivec2 texture_size(0);
     glm::ivec2 offset(0);
-    for (u8 i = LOWEST_CHAR; i < HIGHEST_CHAR; i++) {
+    for (std::uint8_t i = LOWEST_CHAR; i < HIGHEST_CHAR; i++) {
         FT_Load_Char(face, i, FT_LOAD_NO_BITMAP | FT_LOAD_NO_HINTING);
         auto& bmp = face->glyph->bitmap;
 
@@ -31,11 +31,11 @@ Font::Font(Texture& texture, std::string_view file_name) : max_ascent(0) {
             offset.y += height;
         }
 
-        glyphs.emplace(i, Glyph{ offset, { bmp.width, bmp.rows }, { face->glyph->bitmap_left, face->glyph->bitmap_top }, (u32)face->glyph->advance.x >> 6 });
+        glyphs.emplace(i, Glyph{ offset, { bmp.width, bmp.rows }, { face->glyph->bitmap_left, face->glyph->bitmap_top }, (std::uint32_t)face->glyph->advance.x >> 6 });
 
         offset.x += bmp.width;
         texture_size.x = std::max(texture_size.x, offset.x);
-        texture_size.y = std::max(texture_size.y, offset.y + (i32)height);
+        texture_size.y = std::max(texture_size.y, offset.y + (int)height);
 
         if (face->glyph->bitmap_top > max_ascent && i != '_') {
             max_ascent = face->glyph->bitmap_top;
@@ -43,12 +43,12 @@ Font::Font(Texture& texture, std::string_view file_name) : max_ascent(0) {
     }
 
     // load glyphs into buffer
-    u8* pixels = new u8[texture_size.x * texture_size.y];
+    std::uint8_t* pixels = new std::uint8_t[texture_size.x * texture_size.y];
     for (auto& [ch, glyph] : glyphs) {
         FT_Load_Char(face, ch, FT_LOAD_RENDER | FT_LOAD_NO_HINTING);
         auto& bmp = face->glyph->bitmap;
 
-        for (i32 row = 0; row < bmp.rows; ++row) {
+        for (int row = 0; row < bmp.rows; ++row) {
             std::memcpy(&pixels[(glyph.offset.y + row) * texture_size.x + glyph.offset.x], &bmp.buffer[row * bmp.pitch], bmp.width);
         }
     }
@@ -60,7 +60,7 @@ Font::Font(Texture& texture, std::string_view file_name) : max_ascent(0) {
     layer = std::make_shared<TextureLayer>(texture.add_layer(pixels, texture_size, 1));
 }
 
-const Glyph& Font::get_glyph(u8 character) const {
+const Glyph& Font::get_glyph(std::uint8_t character) const {
     if (!glyphs.contains(character)) {
         debug.error("Character {} not found in font", character);
         throw std::runtime_error(std::format("Character {} not found in font", character));

@@ -20,5 +20,5 @@ private:
     Player player;
     TextureLayer vignette_layer;
 
-    void update(f32 delta_time);
+    void update(float delta_time);
 };

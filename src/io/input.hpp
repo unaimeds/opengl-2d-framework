@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "../graphics/window.hpp"
 
 enum class Key {
@@ -11,11 +13,11 @@ enum class Key {
 
 class Input {
 public:
-    Input(cref<Window> window);
+    Input(const Window& window);
 
     bool is_key_pressed(Key key);
 private:
-    std::unordered_map<i32, bool> key_states;
+    std::unordered_map<int, bool> key_states;
 
-    void key_callback(i32 key, i32 action);
+    void key_callback(int key, int action);
 };
