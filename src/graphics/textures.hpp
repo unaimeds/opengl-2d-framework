@@ -38,7 +38,7 @@ public:
     void create_texture();
     void bind(std::uint32_t unit) const;
 
-    std::uint32_t id;
-    glm::ivec2 size;
+    std::uint32_t id = 0;
+    glm::ivec2 size{0, 0};
     std::vector<std::unique_ptr<TextureLayer>> layers;
 };

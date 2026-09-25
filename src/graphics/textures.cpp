@@ -1,5 +1,6 @@
 #include "textures.hpp"
 
+#include <algorithm>
 #include <stb/stb_image.h>
 #include <glad/glad.h>
 #include <stdexcept>
@@ -72,10 +73,8 @@ const TextureLayer& Texture::add_layer(const std::string& file, int sprite_size,
     if (data == nullptr)
         throw std::runtime_error(std::format("Failed to load texture: {}", path));
 
-    if (size.x < layer_size.x)
-        size.x = layer_size.x;
-    if (size.y < layer_size.y)
-        size.y = layer_size.y;
+    size.x = std::max(size.x, layer_size.x);
+    size.y = std::max(size.y, layer_size.y);
 
     int index = static_cast<int>(layers.size());
     auto layer = std::make_unique<TextureLayer>(size, index, data, layer_size, channels, sprite_size);
@@ -86,10 +85,8 @@ const TextureLayer& Texture::add_layer(const std::string& file, int sprite_size,
 }
 
 const TextureLayer& Texture::add_layer(std::uint8_t* data, const glm::ivec2& layer_size, std::uint8_t channels) {
-    if (size.x < layer_size.x)
-        size.x = layer_size.x;
-    if (size.y < layer_size.y)
-        size.y = layer_size.y;
+    size.x = std::max(size.x, layer_size.x);
+    size.y = std::max(size.y, layer_size.y);
 
     int index = static_cast<int>(layers.size());
 
