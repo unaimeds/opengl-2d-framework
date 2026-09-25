@@ -1,7 +1,7 @@
 #include "game.hpp"
 
 Game::Game() :
-    window("Kotlin Game - Remake in C++", { 1280, 720 }),
+    window("OpenGL 2D Framework", { 1280, 720 }),
     input(window),
 
     texture(),
